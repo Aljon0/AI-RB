@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 // Component imports
-import Header from "./components/Header";
-import ResumeForm from "./components/ResumeForm";
-import ResumePreview from "./components/ResumePreview";
-import SavedResumes from "./components/SavedResumes";
-import Sidebar from "./components/Sidebar";
-import TemplateSelector from "./components/TemplateSelector";
+import Header from "./Header";
+import ResumeForm from "./ResumeForm";
+import ResumePreview from "./ResumePreview";
+import SavedResumes from "./SavedResumes";
+import Sidebar from "./Sidebar";
+import TemplateSelector from "./TemplateSelector";
 
 export default function ResumeBuilder() {
   const [activeTab, setActiveTab] = useState("editor");

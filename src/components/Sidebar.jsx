@@ -88,3 +88,4 @@ export function Sidebar({ activeTab, setActiveTab }) {
     </aside>
   );
 }
+export default Sidebar;

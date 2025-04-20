@@ -687,3 +687,5 @@ export function ResumeForm({ resumeData, handleDataChange }) {
     </div>
   );
 }
+
+export default ResumeForm;

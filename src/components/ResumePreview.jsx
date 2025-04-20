@@ -33,3 +33,5 @@ export function ResumePreview({ resumeData, template }) {
     </div>
   );
 }
+
+export default ResumePreview;

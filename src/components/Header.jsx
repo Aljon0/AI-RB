@@ -60,3 +60,5 @@ function Header({ saveResume }) {
     </header>
   );
 }
+
+export default Header;
