@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export function ResumeForm({ resumeData, handleDataChange }) {
   const [activeSection, setActiveSection] = useState("personalInfo");
 

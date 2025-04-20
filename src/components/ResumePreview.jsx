@@ -1,3 +1,5 @@
+import { ModernTemplate } from "./ResumeTemplate";
+
 export function ResumePreview({ resumeData, template }) {
   return (
     <div className="w-1/2 bg-[#F2F4F3] p-6 overflow-y-auto flex flex-col">
