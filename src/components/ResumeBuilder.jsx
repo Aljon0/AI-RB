@@ -8,13 +8,13 @@ import SavedResumes from "./SavedResumes";
 import Sidebar from "./Sidebar";
 import TemplateSelector from "./TemplateSelector";
 
-export default function ResumeBuilder() {
+export default function ResumeBuilder({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState("editor");
   const [resumeData, setResumeData] = useState({
     personalInfo: {
-      name: "",
+      name: user?.fullName || "",
       jobTitle: "",
-      email: "",
+      email: user?.email || "",
       phone: "",
       location: "",
       summary: "",
@@ -47,11 +47,12 @@ export default function ResumeBuilder() {
 
   // Load saved resumes from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem("savedResumes");
+    const userKey = `savedResumes_${user?.email}`;
+    const saved = localStorage.getItem(userKey);
     if (saved) {
       setSavedResumes(JSON.parse(saved));
     }
-  }, []);
+  }, [user?.email]);
 
   const handleDataChange = (section, data) => {
     setResumeData((prev) => ({
@@ -71,7 +72,10 @@ export default function ResumeBuilder() {
 
     const updatedResumes = [...savedResumes, newResume];
     setSavedResumes(updatedResumes);
-    localStorage.setItem("savedResumes", JSON.stringify(updatedResumes));
+
+    // Save using user-specific key
+    const userKey = `savedResumes_${user?.email}`;
+    localStorage.setItem(userKey, JSON.stringify(updatedResumes));
 
     alert("Resume saved successfully!");
   };
@@ -88,15 +92,23 @@ export default function ResumeBuilder() {
   const deleteResume = (id) => {
     const updatedResumes = savedResumes.filter((resume) => resume.id !== id);
     setSavedResumes(updatedResumes);
-    localStorage.setItem("savedResumes", JSON.stringify(updatedResumes));
+
+    // Update using user-specific key
+    const userKey = `savedResumes_${user?.email}`;
+    localStorage.setItem(userKey, JSON.stringify(updatedResumes));
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header saveResume={saveResume} />
+      <Header saveResume={saveResume} user={user} />
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          username={user?.fullName || user?.email}
+          onLogout={onLogout}
+        />
 
         <div className="flex-1 flex flex-col overflow-hidden bg-[#F2F4F3]">
           {activeTab === "editor" && (
