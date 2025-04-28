@@ -61,12 +61,12 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
           >
             <div className="h-48 bg-white p-3 flex items-center justify-center">
               {template.id === "modern" && (
-                <div className="w-full h-full">
+                <div className="w-full h-full flex flex-col">
                   <div className="bg-[#22333B] h-1/3 w-full p-2">
                     <div className="bg-white h-4 w-24 mb-1 rounded-sm"></div>
                     <div className="bg-white/50 h-2 w-16 rounded-sm"></div>
                   </div>
-                  <div className="p-2">
+                  <div className="p-2 flex-1">
                     <div className="bg-gray-200 h-2 w-full mb-1 rounded-sm"></div>
                     <div className="bg-gray-200 h-2 w-3/4 mb-4 rounded-sm"></div>
                     <div className="bg-gray-200 h-2 w-full mb-1 rounded-sm"></div>
@@ -88,15 +88,19 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
               )}
               {template.id === "minimal" && (
                 <div className="w-full h-full bg-[#F2F4F3] p-3">
-                  <div className="bg-white p-2 rounded">
-                    <div className="bg-[#0A0908] h-4 w-32 mb-1 rounded-sm"></div>
-                    <div className="bg-[#5E503F] h-2 w-24 rounded-sm"></div>
+                  <div className="bg-white p-2 rounded h-full flex flex-col">
+                    <div>
+                      <div className="bg-[#0A0908] h-4 w-32 mb-1 rounded-sm"></div>
+                      <div className="bg-[#5E503F] h-2 w-24 rounded-sm"></div>
+                    </div>
                     <div className="flex space-x-2 my-3">
                       <div className="bg-[#A9927D]/20 h-2 w-16 rounded-sm"></div>
                       <div className="bg-[#A9927D]/20 h-2 w-12 rounded-sm"></div>
                     </div>
-                    <div className="bg-gray-200 h-2 w-full mb-1 rounded-sm"></div>
-                    <div className="bg-gray-200 h-2 w-5/6 rounded-sm"></div>
+                    <div className="flex-1">
+                      <div className="bg-gray-200 h-2 w-full mb-1 rounded-sm"></div>
+                      <div className="bg-gray-200 h-2 w-5/6 rounded-sm"></div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -204,7 +208,7 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
                 </div>
               )}
             </div>
-            <div className="p-4 bg-white border-t border-gray-200">
+            <div className="p-4 bg-white border-t border-gray-200 h-full">
               <h3 className="font-bold text-[#0A0908]">{template.name}</h3>
               <p className="text-sm text-gray-600 mt-1">
                 {template.description}
