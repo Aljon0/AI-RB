@@ -5,8 +5,9 @@ import {
   ProjectsSection,
   Section,
 } from "../components/TemplateSection";
+import { ContactItem } from "../components/TemplateHeader";
 
-export function ClassicTemplate({ resumeData }) {
+export default function ClassicTemplate({ resumeData }) {
   return (
     <div className="h-full p-8">
       <div className="text-center mb-6">

@@ -6,7 +6,7 @@ import {
   Section,
 } from "../components/TemplateSection";
 
-export function MinimalTemplate({ resumeData }) {
+export default function MinimalTemplate({ resumeData }) {
   return (
     <div className="h-full p-8 bg-[#F2F4F3]">
       <div className="mb-6">

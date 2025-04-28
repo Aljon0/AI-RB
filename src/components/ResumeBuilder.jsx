@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Header from "./Header";
 import ResumeForm from "./ResumeForm";
 import ResumePreview from "./ResumePreview";
@@ -49,7 +48,13 @@ export default function ResumeBuilder({ user, onLogout }) {
     const userKey = `savedResumes_${user?.email}`;
     const saved = localStorage.getItem(userKey);
     if (saved) {
-      setSavedResumes(JSON.parse(saved));
+      const parsedResumes = JSON.parse(saved);
+      setSavedResumes(parsedResumes);
+
+      // If there are saved resumes, load the most recent one's template
+      if (parsedResumes.length > 0) {
+        setSelectedTemplate(parsedResumes[0].template);
+      }
     }
   }, [user?.email]);
 
@@ -69,7 +74,21 @@ export default function ResumeBuilder({ user, onLogout }) {
       lastModified: new Date().toISOString(),
     };
 
-    const updatedResumes = [...savedResumes, newResume];
+    // Check if this resume already exists (by name)
+    const existingIndex = savedResumes.findIndex(
+      (resume) => resume.name === newResume.name
+    );
+
+    let updatedResumes;
+    if (existingIndex >= 0) {
+      // Update existing resume
+      updatedResumes = [...savedResumes];
+      updatedResumes[existingIndex] = newResume;
+    } else {
+      // Add new resume
+      updatedResumes = [...savedResumes, newResume];
+    }
+
     setSavedResumes(updatedResumes);
 
     // Save using user-specific key
@@ -97,9 +116,19 @@ export default function ResumeBuilder({ user, onLogout }) {
     localStorage.setItem(userKey, JSON.stringify(updatedResumes));
   };
 
+  const handleTemplateSelect = (template) => {
+    setSelectedTemplate(template);
+    // Switch to editor tab when selecting a template
+    setActiveTab("editor");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header saveResume={saveResume} user={user} />
+      <Header
+        saveResume={saveResume}
+        user={user}
+        selectedTemplate={selectedTemplate}
+      />
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
@@ -126,7 +155,7 @@ export default function ResumeBuilder({ user, onLogout }) {
           {activeTab === "templates" && (
             <TemplateSelector
               selectedTemplate={selectedTemplate}
-              setSelectedTemplate={setSelectedTemplate}
+              setSelectedTemplate={handleTemplateSelect}
             />
           )}
 

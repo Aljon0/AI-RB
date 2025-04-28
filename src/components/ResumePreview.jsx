@@ -1,16 +1,10 @@
-import ModernTemplate from "./ResumeTemplate";
+import ResumeTemplate from "./ResumeTemplate";
 
 export function ResumePreview({ resumeData, template }) {
   return (
     <div className="w-1/2 bg-[#F2F4F3] p-6 overflow-y-auto flex flex-col">
       <div className="bg-white shadow-lg rounded-lg overflow-hidden flex-1 mb-4">
-        {template === "modern" ? (
-          <ModernTemplate resumeData={resumeData} />
-        ) : template === "classic" ? (
-          <ClassicTemplate resumeData={resumeData} />
-        ) : (
-          <MinimalTemplate resumeData={resumeData} />
-        )}
+        <ResumeTemplate template={template} resumeData={resumeData} />
       </div>
 
       <div className="mt-auto flex justify-center">
