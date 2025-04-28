@@ -1,4 +1,3 @@
-// components/Section.jsx
 export function Section({ title, children, borderColor = "border-[#A9927D]" }) {
   return (
     <div className="mb-6">

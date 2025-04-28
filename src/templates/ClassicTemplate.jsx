@@ -1,7 +1,6 @@
 import {
   ExperienceSection,
   EducationSection,
-  SkillsSection,
   ProjectsSection,
   Section,
 } from "../components/TemplateSection";
