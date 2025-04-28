@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-// Component imports
 import Header from "./Header";
 import ResumeForm from "./ResumeForm";
 import ResumePreview from "./ResumePreview";

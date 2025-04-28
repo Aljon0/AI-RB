@@ -1,4 +1,13 @@
-export function Sidebar({ activeTab, setActiveTab }) {
+import { useState } from "react";
+import LogoutConfirmationModal from "./LogoutConfirmationModal";
+export default function Sidebar({
+  activeTab,
+  setActiveTab,
+  user,
+  username,
+  onLogout,
+}) {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const tabs = [
     {
       id: "editor",
@@ -17,10 +26,17 @@ export function Sidebar({ activeTab, setActiveTab }) {
     },
   ];
 
+  // Get display name from either user object or username prop
+  const displayName =
+    user?.displayName ||
+    username ||
+    (user?.email ? user.email.split("@")[0] : "Guest");
+
   return (
-    <aside className="w-64 bg-[#22333B] text-gray-100">
-      <div className="p-4">
-        <div className="flex items-center space-x-2 mb-8">
+    <aside className="w-64 bg-[#22333B] text-gray-100 flex flex-col h-screen">
+      {/* User info and logout at the top */}
+      <div className="p-4 flex items-center justify-between">
+        <div className="flex items-center">
           <div className="w-8 h-8 rounded-full bg-[#A9927D] flex items-center justify-center">
             <svg
               className="w-5 h-5"
@@ -37,10 +53,38 @@ export function Sidebar({ activeTab, setActiveTab }) {
               ></path>
             </svg>
           </div>
-          <span className="font-medium">AI Resume Builder</span>
+          <span className="font-medium ml-2 truncate max-w-[150px]">
+            {displayName}
+          </span>
         </div>
+        {/* Logout button as an icon */}
+        {(user || username) && (
+          <button
+            onClick={() => setShowLogoutModal(true)} // Open modal instead of direct logout
+            className="p-2 hover:bg-[#5E503F]/70 rounded-full transition-colors"
+            title="Sign Out"
+            aria-label="Sign Out"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              ></path>
+            </svg>
+          </button>
+        )}
+      </div>
 
-        <nav>
+      <div className="px-4 flex-grow">
+        <nav className="mt-6">
           <ul className="space-y-2">
             {tabs.map((tab) => (
               <li key={tab.id}>
@@ -74,7 +118,7 @@ export function Sidebar({ activeTab, setActiveTab }) {
         </nav>
       </div>
 
-      <div className="p-4 mt-auto border-t border-gray-700">
+      <div className="p-4 mt-auto">
         <div className="bg-[#0A0908] p-4 rounded-lg">
           <h3 className="font-medium text-white mb-2">AI Assistant</h3>
           <p className="text-sm text-gray-300 mb-3">
@@ -85,7 +129,15 @@ export function Sidebar({ activeTab, setActiveTab }) {
           </button>
         </div>
       </div>
+
+      <LogoutConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={() => {
+          setShowLogoutModal(false);
+          onLogout();
+        }}
+      />
     </aside>
   );
 }
-export default Sidebar;

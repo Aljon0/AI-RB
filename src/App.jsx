@@ -1,36 +1,33 @@
-import { useEffect, useState } from "react";
 import {
-  Navigate,
-  Route,
   BrowserRouter as Router,
   Routes,
+  Route,
+  Navigate,
 } from "react-router-dom";
-import ResumeBuilder from "./components/ResumeBuilder";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import ResumeBuilder from "./components/ResumeBuilder";
+import { useAuth } from "./hooks/useAuth";
+import { logout } from "./services/auth";
 
-const App = () => {
-  const [user, setUser] = useState(null);
+function App() {
+  const { user, loading } = useAuth();
 
-  // Check for stored user on initial load
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
     }
-  }, []);
-
-  const handleLogin = (userData) => {
-    // Store user in state and localStorage
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  const handleLogout = () => {
-    // Clear user from state and localStorage
-    setUser(null);
-    localStorage.removeItem("user");
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F2F4F3]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#22333B]"></div>
+      </div>
+    );
+  }
 
   return (
     <Router>
@@ -47,27 +44,16 @@ const App = () => {
         />
         <Route
           path="/login"
-          element={
-            user ? (
-              <Navigate to="/" replace />
-            ) : (
-              <LoginPage onLogin={handleLogin} />
-            )
-          }
+          element={user ? <Navigate to="/" replace /> : <LoginPage />}
         />
         <Route
           path="/register"
-          element={
-            user ? (
-              <Navigate to="/" replace />
-            ) : (
-              <RegisterPage onRegister={handleLogin} />
-            )
-          }
+          element={user ? <Navigate to="/" replace /> : <RegisterPage />}
         />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;
