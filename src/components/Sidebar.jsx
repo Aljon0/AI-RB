@@ -33,7 +33,7 @@ export default function Sidebar({
     (user?.email ? user.email.split("@")[0] : "Guest");
 
   return (
-    <aside className="w-64 bg-[#22333B] text-gray-100 flex flex-col h-screen">
+    <aside className="w-64 bg-[#22333B] text-gray-100 flex flex-col min-h-screen">
       {/* User info and logout at the top */}
       <div className="p-4 flex items-center justify-between">
         <div className="flex items-center">

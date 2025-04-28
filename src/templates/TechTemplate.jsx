@@ -58,7 +58,9 @@ export default function TechTemplate({ resumeData }) {
                     />
                   </svg>
                 </div>
-                <span className="text-sm">{resumeData.personalInfo.phone}</span>
+                <span className="text-sm break-all">
+                  {resumeData.personalInfo.phone}
+                </span>
               </div>
             )}
             {resumeData.personalInfo.location && (
@@ -76,7 +78,7 @@ export default function TechTemplate({ resumeData }) {
                     />
                   </svg>
                 </div>
-                <span className="text-sm">
+                <span className="text-sm break-all">
                   {resumeData.personalInfo.location}
                 </span>
               </div>
@@ -154,7 +156,7 @@ export default function TechTemplate({ resumeData }) {
               <h2 className="text-xl font-bold text-slate-800 border-b-2 border-green-500 pb-2 mb-4">
                 <span className="text-green-600">//</span> Projects
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_0.5fr] gap-4">
                 {resumeData.projects.map((project, index) => (
                   <div
                     key={index}
