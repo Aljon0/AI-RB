@@ -1,4 +1,4 @@
-import { ModernTemplate } from "./ResumeTemplate";
+import ModernTemplate from "./ResumeTemplate";
 
 export function ResumePreview({ resumeData, template }) {
   return (

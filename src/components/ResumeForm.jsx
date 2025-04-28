@@ -3,7 +3,7 @@ import { TabNavigation } from "./TabNavigation";
 import { PersonalInfoSection } from "./PersonalInfoSection";
 import { ExperienceSection } from "./ExperienceSection";
 import { EducationSection } from "./EducationSection";
-import { SkillsSection } from "./SkillsSection";
+import SkillsSection from "./SkillsSection";
 import { ProjectsSection } from "./ProjectsSection";
 
 export function ResumeForm({ resumeData, handleDataChange }) {

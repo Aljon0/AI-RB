@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-export default function SkillsSection({
+export function SkillsSection({
   skills,
   updateSkills,
   addSkill,
@@ -98,3 +98,5 @@ export default function SkillsSection({
     </div>
   );
 }
+
+export default SkillsSection;
