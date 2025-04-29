@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { loginUser, signInWithGoogle } from "../firebase";
+import {
+  CustomToastContainer,
+  CustomToastCSS,
+  showErrorToast,
+  showSuccessToast,
+} from "../components/CustomToast";
 
 export function LoginPage({ onLogin }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +27,6 @@ export function LoginPage({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
 
     try {
@@ -33,17 +37,16 @@ export function LoginPage({ onLogin }) {
         displayName: user.displayName || formData.email.split("@")[0],
       };
 
+      showSuccessToast(`Welcome back, ${userData.displayName}!`);
       onLogin(userData);
     } catch (error) {
-      console.error("Login error:", error);
-      setError(getErrorMessage(error.code));
+      showErrorToast(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    setError("");
     setGoogleLoading(true);
 
     try {
@@ -55,16 +58,20 @@ export function LoginPage({ onLogin }) {
         photoURL: user.photoURL,
       };
 
+      showSuccessToast(`Welcome back, ${userData.displayName}!`);
       onLogin(userData);
     } catch (error) {
       console.error("Google login error:", error);
-      setError(getErrorMessage(error.code));
+      showErrorToast(getErrorMessage(error));
     } finally {
       setGoogleLoading(false);
     }
   };
 
-  const getErrorMessage = (errorCode) => {
+  const getErrorMessage = (error) => {
+    // Handle both error objects with code property and string errors
+    const errorCode = error?.code || error?.message || String(error);
+
     switch (errorCode) {
       case "auth/invalid-email":
         return "Invalid email address";
@@ -74,14 +81,22 @@ export function LoginPage({ onLogin }) {
         return "No account found with this email";
       case "auth/wrong-password":
         return "Incorrect password";
+      case "auth/invalid-credential":
+        return "Invalid email or password";
+      case "auth/invalid-login-credentials":
+        return "Invalid email or password";
       case "auth/popup-closed-by-user":
         return "Sign-in popup was closed before completing the sign in";
       case "auth/cancelled-popup-request":
         return "The sign-in process was cancelled";
       case "auth/account-exists-with-different-credential":
         return "An account already exists with the same email address but different sign-in credentials";
+      case "auth/too-many-requests":
+        return "Too many unsuccessful login attempts. Please try again later";
+      case "auth/network-request-failed":
+        return "Network error. Please check your internet connection";
       default:
-        return "An error occurred during login";
+        return `Login failed: ${errorCode}`;
     }
   };
 
@@ -91,6 +106,9 @@ export function LoginPage({ onLogin }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F2F4F3]">
+      <CustomToastCSS />
+      <CustomToastContainer />
+
       <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md">
         <div className="bg-[#22333B] p-6">
           <h2 className="text-2xl font-bold text-white text-center">
@@ -117,12 +135,6 @@ export function LoginPage({ onLogin }) {
               </svg>
             </div>
           </div>
-
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-              {error}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">

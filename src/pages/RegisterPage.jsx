@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { registerUser, signInWithGoogle } from "../firebase";
+import {
+  CustomToastContainer,
+  showSuccessToast,
+  showErrorToast,
+  CustomToastCSS,
+} from "../components/CustomToast";
 
 export function RegisterPage({ onRegister }) {
   const [formData, setFormData] = useState({
@@ -29,12 +35,12 @@ export function RegisterPage({ onRegister }) {
 
     // Password validation
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords don't match!");
+      showErrorToast("Passwords don't match!");
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("Password should be at least 6 characters");
+      showErrorToast("Password should be at least 6 characters");
       return;
     }
 
@@ -43,19 +49,19 @@ export function RegisterPage({ onRegister }) {
     try {
       const user = await registerUser(formData.email, formData.password);
 
-      // You could also update the user's profile with their name
-      // await updateProfile(user, { displayName: formData.fullName });
-
       const userData = {
         email: user.email,
         uid: user.uid,
-        displayName: formData.fullName || formData.email.split("@")[0],
+        displayName: formData.fullName || user.email.split("@")[0],
       };
 
       onRegister(userData);
+      showSuccessToast("Registration successful!");
     } catch (error) {
       console.error("Registration error:", error);
-      setError(getErrorMessage(error.code));
+      const errorMsg = getErrorMessage(error.code);
+      setError(errorMsg);
+      showErrorToast(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -75,9 +81,12 @@ export function RegisterPage({ onRegister }) {
       };
 
       onRegister(userData);
+      showSuccessToast("Google sign-in successful!");
     } catch (error) {
       console.error("Google registration error:", error);
-      setError(getErrorMessage(error.code));
+      const errorMsg = getErrorMessage(error.code);
+      setError(errorMsg);
+      showErrorToast(errorMsg);
     } finally {
       setGoogleLoading(false);
     }
@@ -112,6 +121,10 @@ export function RegisterPage({ onRegister }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F2F4F3]">
+      {/* Add CustomToastContainer and CustomToastCSS */}
+      <CustomToastContainer />
+      <CustomToastCSS />
+
       <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md">
         <div className="bg-[#22333B] p-6">
           <h2 className="text-2xl font-bold text-white text-center">

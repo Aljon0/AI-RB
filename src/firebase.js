@@ -27,7 +27,6 @@ googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
-// Authentication functions
 export const registerUser = async (email, password) => {
   const userCredential = await createUserWithEmailAndPassword(
     auth,
