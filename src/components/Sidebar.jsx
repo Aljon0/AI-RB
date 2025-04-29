@@ -1,14 +1,26 @@
-import { useState } from "react";
-import LogoutConfirmationModal from "./LogoutConfirmationModal";
+import { useState, useEffect } from "react";
 
-export default function Sidebar({
-  activeTab,
-  setActiveTab,
-  user,
-  username,
-  onLogout,
-}) {
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+export default function Sidebar({ activeTab, setActiveTab, user, username }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
+
+  // Track window width for responsive design
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const tabs = [
     {
       id: "editor",
@@ -37,41 +49,156 @@ export default function Sidebar({
     displayName = displayName.split("@")[0];
   }
 
+  // Get first letter of display name for avatar
+  const avatarInitial = displayName.charAt(0).toUpperCase();
+
+  // Determine if sidebar should be shown as overlay or not
+  const isMobileView = windowWidth < 768;
+
   return (
-    <aside className="w-64 bg-[#22333B] text-gray-100 flex flex-col min-h-screen">
-      {/* User info and logout at the top */}
-      <div className="p-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-[#A9927D] flex items-center justify-center">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+    <>
+      {/* Mobile toggle button - fixed position */}
+      {isMobileView && (
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="fixed bottom-4 left-4 z-50 p-3 rounded-full bg-[#22333B] text-white shadow-lg hover:bg-[#5E503F] transition-colors duration-300"
+          aria-label="Toggle Sidebar"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {isMobileMenuOpen ? (
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              ></path>
-            </svg>
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </svg>
+        </button>
+      )}
+
+      {/* Main sidebar - conditional rendering based on screen size and menu state */}
+      <aside
+        className={`${
+          isMobileView
+            ? isMobileMenuOpen
+              ? "fixed inset-y-0 left-0 z-40 w-64 transform translate-x-0"
+              : "fixed inset-y-0 left-0 z-40 w-64 transform -translate-x-full"
+            : "w-64 h-screen sticky top-0"
+        } bg-gradient-to-b from-[#22333B] to-[#1D2B32] text-gray-100 flex flex-col transition-transform duration-300 ease-in-out shadow-xl`}
+      >
+        {/* User info and logout at the top */}
+        <div className="p-4 flex items-center border-b border-[#5E503F]/30">
+          <div className="flex items-center w-full">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#A9927D] to-[#5E503F] flex items-center justify-center text-white font-medium shadow-md shrink-0">
+              {avatarInitial}
+            </div>
+            <div className="ml-3 overflow-hidden">
+              <span className="font-medium truncate w-40 inline-block">
+                {displayName}
+              </span>
+              <span className="text-xs text-gray-300 opacity-70 truncate w-40 inline-block">
+                {user?.email ? user.email : "Resume Builder"}
+              </span>
+            </div>
           </div>
-          <span className="font-medium ml-2 truncate max-w-[150px]">
-            {displayName}
-          </span>
         </div>
-        {/* Logout button as an icon */}
-        {(user || username) && (
+
+        <div className="px-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-[#5E503F] scrollbar-track-transparent">
+          <nav className="mt-6">
+            <ul className="space-y-2">
+              {tabs.map((tab) => (
+                <li key={tab.id}>
+                  <button
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      if (isMobileView) setIsMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center p-3 rounded-lg transition-all duration-300 ${
+                      activeTab === tab.id
+                        ? "bg-[#5E503F] text-white shadow-md transform scale-102"
+                        : "text-gray-300 hover:bg-[#5E503F]/30 hover:translate-x-1"
+                    }`}
+                  >
+                    <svg
+                      className={`w-5 h-5 mr-3 ${
+                        activeTab === tab.id
+                          ? "text-[#F2E9E4]"
+                          : "text-gray-400"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d={tab.icon}
+                      ></path>
+                    </svg>
+                    {tab.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+
+        {/* AI Assistant Card */}
+        <div className="p-4 mt-auto">
+          <div className="bg-gradient-to-br from-[#0A0908] to-[#1A1918] p-4 rounded-lg shadow-inner border border-[#5E503F]/20">
+            <div className="flex items-center mb-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  ></path>
+                </svg>
+              </div>
+              <h3 className="font-medium text-white ml-2">AI Assistant</h3>
+            </div>
+            <p className="text-sm text-gray-300 mb-3">
+              Need help with your resume? Ask our AI assistant for suggestions!
+            </p>
+            <button className="w-full bg-gradient-to-r from-[#A9927D] to-[#5E503F] text-white py-2 rounded-md hover:from-[#5E503F] hover:to-[#A9927D] transition duration-300 shadow-md transform hover:-translate-y-0.5">
+              Ask AI for Help
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile close button - only visible on mobile */}
+        {isMobileView && isMobileMenuOpen && (
           <button
-            onClick={() => setShowLogoutModal(true)} // Open modal instead of direct logout
-            className="p-2 hover:bg-[#5E503F]/70 rounded-full transition-colors"
-            title="Sign Out"
-            aria-label="Sign Out"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="absolute top-4 right-4 p-2 rounded-full bg-[#5E503F]/30 text-white md:hidden"
+            aria-label="Close Sidebar"
           >
             <svg
-              className="w-5 h-5"
+              className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -81,68 +208,22 @@ export default function Sidebar({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                d="M6 18L18 6M6 6l12 12"
               ></path>
             </svg>
           </button>
         )}
-      </div>
 
-      <div className="px-4 flex-grow">
-        <nav className="mt-6">
-          <ul className="space-y-2">
-            {tabs.map((tab) => (
-              <li key={tab.id}>
-                <button
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center p-3 rounded-lg transition-colors ${
-                    activeTab === tab.id
-                      ? "bg-[#5E503F] text-white"
-                      : "text-gray-300 hover:bg-[#5E503F]/50"
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d={tab.icon}
-                    ></path>
-                  </svg>
-                  {tab.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
+        {/* Modal is now controlled by the parent component */}
+      </aside>
 
-      <div className="p-4 mt-auto">
-        <div className="bg-[#0A0908] p-4 rounded-lg">
-          <h3 className="font-medium text-white mb-2">AI Assistant</h3>
-          <p className="text-sm text-gray-300 mb-3">
-            Need help with your resume? Ask our AI assistant for suggestions!
-          </p>
-          <button className="w-full bg-[#A9927D] text-white py-2 rounded-md hover:bg-[#5E503F] transition duration-300">
-            Ask AI for Help
-          </button>
-        </div>
-      </div>
-
-      <LogoutConfirmationModal
-        isOpen={showLogoutModal}
-        onClose={() => setShowLogoutModal(false)}
-        onConfirm={() => {
-          setShowLogoutModal(false);
-          onLogout();
-        }}
-      />
-    </aside>
+      {/* Overlay when mobile menu is open */}
+      {isMobileView && isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 backdrop-blur-xs bg-opacity-50 z-30"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+      )}
+    </>
   );
 }
