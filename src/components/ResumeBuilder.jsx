@@ -42,18 +42,21 @@ export default function ResumeBuilder({ user, onLogout }) {
   });
   const [selectedTemplate, setSelectedTemplate] = useState("modern");
   const [savedResumes, setSavedResumes] = useState([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Load saved resumes from localStorage
   useEffect(() => {
     const userKey = `savedResumes_${user?.email}`;
     const saved = localStorage.getItem(userKey);
     if (saved) {
-      const parsedResumes = JSON.parse(saved);
-      setSavedResumes(parsedResumes);
-
-      // If there are saved resumes, load the most recent one's template
-      if (parsedResumes.length > 0) {
-        setSelectedTemplate(parsedResumes[0].template);
+      try {
+        const parsedResumes = JSON.parse(saved);
+        setSavedResumes(parsedResumes);
+        if (parsedResumes.length > 0) {
+          setSelectedTemplate(parsedResumes[0].template);
+        }
+      } catch (error) {
+        console.error("Error parsing saved resumes:", error);
       }
     }
   }, [user?.email]);
@@ -66,36 +69,42 @@ export default function ResumeBuilder({ user, onLogout }) {
   };
 
   const saveResume = () => {
-    const newResume = {
-      id: Date.now(),
-      name: resumeData.personalInfo.name || "Untitled Resume",
-      data: resumeData,
-      template: selectedTemplate,
-      lastModified: new Date().toISOString(),
-    };
+    setIsSaving(true);
 
-    // Check if this resume already exists (by name)
-    const existingIndex = savedResumes.findIndex(
-      (resume) => resume.name === newResume.name
-    );
+    try {
+      const newResume = {
+        id: Date.now(),
+        name: resumeData.personalInfo.name || "Untitled Resume",
+        data: resumeData,
+        template: selectedTemplate,
+        lastModified: new Date().toISOString(),
+      };
 
-    let updatedResumes;
-    if (existingIndex >= 0) {
-      // Update existing resume
-      updatedResumes = [...savedResumes];
-      updatedResumes[existingIndex] = newResume;
-    } else {
-      // Add new resume
-      updatedResumes = [...savedResumes, newResume];
+      // Check if this resume already exists (by name)
+      const existingIndex = savedResumes.findIndex(
+        (resume) => resume.name === newResume.name
+      );
+
+      const updatedResumes =
+        existingIndex >= 0
+          ? savedResumes.map((resume, index) =>
+              index === existingIndex ? newResume : resume
+            )
+          : [...savedResumes, newResume];
+
+      setSavedResumes(updatedResumes);
+
+      // Save to localStorage
+      const userKey = `savedResumes_${user?.email}`;
+      localStorage.setItem(userKey, JSON.stringify(updatedResumes));
+
+      alert("Resume saved successfully!");
+    } catch (error) {
+      console.error("Error saving resume:", error);
+      alert("Failed to save resume");
+    } finally {
+      setIsSaving(false);
     }
-
-    setSavedResumes(updatedResumes);
-
-    // Save using user-specific key
-    const userKey = `savedResumes_${user?.email}`;
-    localStorage.setItem(userKey, JSON.stringify(updatedResumes));
-
-    alert("Resume saved successfully!");
   };
 
   const loadResume = (id) => {
@@ -110,15 +119,12 @@ export default function ResumeBuilder({ user, onLogout }) {
   const deleteResume = (id) => {
     const updatedResumes = savedResumes.filter((resume) => resume.id !== id);
     setSavedResumes(updatedResumes);
-
-    // Update using user-specific key
     const userKey = `savedResumes_${user?.email}`;
     localStorage.setItem(userKey, JSON.stringify(updatedResumes));
   };
 
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
-    // Switch to editor tab when selecting a template
     setActiveTab("editor");
   };
 
@@ -128,6 +134,7 @@ export default function ResumeBuilder({ user, onLogout }) {
         saveResume={saveResume}
         user={user}
         selectedTemplate={selectedTemplate}
+        isSaving={isSaving}
       />
 
       <div className="flex flex-1 overflow-hidden">
