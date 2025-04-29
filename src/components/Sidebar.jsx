@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LogoutConfirmationModal from "./LogoutConfirmationModal";
+
 export default function Sidebar({
   activeTab,
   setActiveTab,
@@ -26,11 +27,15 @@ export default function Sidebar({
     },
   ];
 
-  // Get display name from either user object or username prop
-  const displayName =
-    user?.displayName ||
-    username ||
-    (user?.email ? user.email.split("@")[0] : "Guest");
+  // Format display name - if it's an email, show only the part before @
+  let displayName = user?.displayName || username || "Guest";
+
+  // Handle email format (remove @gmail.com or other domains)
+  if (user?.email && !displayName) {
+    displayName = user.email.split("@")[0];
+  } else if (displayName && displayName.includes("@")) {
+    displayName = displayName.split("@")[0];
+  }
 
   return (
     <aside className="w-64 bg-[#22333B] text-gray-100 flex flex-col min-h-screen">
