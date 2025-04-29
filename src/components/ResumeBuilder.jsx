@@ -196,6 +196,7 @@ export default function ResumeBuilder({ user, onLogout }) {
                   <ResumeForm
                     resumeData={resumeData}
                     handleDataChange={handleDataChange}
+                    selectedTemplate={selectedTemplate}
                   />
                   <ResumePreview
                     resumeData={resumeData}

@@ -5,15 +5,25 @@ export default function ProfessionalTemplate({ resumeData }) {
       <div className="flex h-full">
         <div className="w-1/3 bg-indigo-800 text-white p-6">
           <div className="mb-8 text-center">
-            <div className="inline-block rounded-full bg-white/10 p-2 mb-3">
-              <svg
-                className="w-12 h-12"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
-            </div>
+            {resumeData.personalInfo.profileImage ? (
+              <div className="w-32 h-32 mx-auto mb-3 rounded-full overflow-hidden border-4 border-white/20">
+                <img
+                  src={resumeData.personalInfo.profileImage}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="inline-block rounded-full bg-white/10 p-2 mb-3">
+                <svg
+                  className="w-12 h-12"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+              </div>
+            )}
             <h1 className="text-2xl font-bold">
               {resumeData.personalInfo.name || "Your Name"}
             </h1>

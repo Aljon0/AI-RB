@@ -6,13 +6,23 @@ export default function TechTemplate({ resumeData }) {
         <div className="w-full md:w-1/4 bg-slate-800 text-white p-6">
           {/* Profile section */}
           <div className="mb-8 text-center">
-            <div className="w-24 h-24 bg-slate-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <span className="text-3xl font-bold">
-                {resumeData.personalInfo.name
-                  ? resumeData.personalInfo.name.charAt(0)
-                  : "A"}
-              </span>
-            </div>
+            {resumeData.personalInfo.profileImage ? (
+              <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-green-400/20">
+                <img
+                  src={resumeData.personalInfo.profileImage}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="w-24 h-24 bg-slate-700 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <span className="text-3xl font-bold">
+                  {resumeData.personalInfo.name
+                    ? resumeData.personalInfo.name.charAt(0)
+                    : "A"}
+                </span>
+              </div>
+            )}
             <h1 className="text-2xl font-bold">
               {resumeData.personalInfo.name || "Your Name"}
             </h1>

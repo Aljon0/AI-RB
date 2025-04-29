@@ -6,7 +6,7 @@ import { EducationSection } from "./EducationSection";
 import SkillsSection from "./SkillsSection";
 import { ProjectsSection } from "./ProjectsSection";
 
-export function ResumeForm({ resumeData, handleDataChange }) {
+export function ResumeForm({ resumeData, handleDataChange, selectedTemplate }) {
   const [activeSection, setActiveSection] = useState("personalInfo");
 
   const sections = [
@@ -137,6 +137,7 @@ export function ResumeForm({ resumeData, handleDataChange }) {
           <PersonalInfoSection
             personalInfo={resumeData.personalInfo}
             updatePersonalInfo={updatePersonalInfo}
+            selectedTemplate={selectedTemplate}
           />
         )}
 

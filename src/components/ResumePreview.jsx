@@ -5,13 +5,22 @@ import ResumeTemplate from "./ResumeTemplate";
 export function ResumePreview({ resumeData, template }) {
   const resumeRef = useRef(null);
 
+  // Check if the current template should show the profile image
+  const showProfileImage = ["professional", "tech"].includes(template);
+
   const handleDownloadPDF = () => {
     const element = resumeRef.current;
     const opt = {
       margin: 10,
-      filename: `${resumeData.personalInfo?.fullName || "resume"}.pdf`,
+      filename: `${resumeData.personalInfo?.name || "resume"}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, logging: true, useCORS: true },
+      html2canvas: {
+        scale: 2,
+        logging: true,
+        useCORS: true,
+        allowTaint: true,
+        letterRendering: true,
+      },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       pagebreak: { mode: ["avoid-all", "css", "legacy"] },
     };
@@ -30,7 +39,19 @@ export function ResumePreview({ resumeData, template }) {
         ref={resumeRef}
         className="bg-white shadow-lg rounded-lg overflow-hidden flex-1 mb-4"
       >
-        <ResumeTemplate template={template} resumeData={resumeData} />
+        <ResumeTemplate
+          template={template}
+          resumeData={{
+            ...resumeData,
+            personalInfo: {
+              ...resumeData.personalInfo,
+              // Only include profileImage if the template should show it
+              profileImage: showProfileImage
+                ? resumeData.personalInfo.profileImage
+                : null,
+            },
+          }}
+        />
       </div>
 
       <div className="mt-auto flex justify-center">
