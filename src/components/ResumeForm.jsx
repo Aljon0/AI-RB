@@ -125,14 +125,14 @@ export function ResumeForm({ resumeData, handleDataChange, selectedTemplate }) {
   };
 
   return (
-    <div className="w-1/2 overflow-y-auto p-6 bg-white border-r border-gray-200">
+    <div className="w-full lg:w-1/2 overflow-y-auto p-4 lg:p-6 bg-white border-r border-gray-200">
       <TabNavigation
         sections={sections}
         activeSection={activeSection}
         setActiveSection={setActiveSection}
       />
 
-      <div className="mt-6">
+      <div className="mt-4 lg:mt-6">
         {activeSection === "personalInfo" && (
           <PersonalInfoSection
             personalInfo={resumeData.personalInfo}

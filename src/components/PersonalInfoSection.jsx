@@ -7,8 +7,6 @@ export function PersonalInfoSection({
 }) {
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef(null);
-
-  // Check if the current template should show the profile image
   const showProfileImage = ["professional", "tech"].includes(selectedTemplate);
 
   const handleDrag = (e) => {
@@ -25,17 +23,12 @@ export function PersonalInfoSection({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
-    }
+    if (e.dataTransfer.files?.[0]) handleFile(e.dataTransfer.files[0]);
   };
 
   const handleChange = (e) => {
     e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      handleFile(e.target.files[0]);
-    }
+    if (e.target.files?.[0]) handleFile(e.target.files[0]);
   };
 
   const handleFile = (file) => {
@@ -43,33 +36,22 @@ export function PersonalInfoSection({
       alert("Please select an image file");
       return;
     }
-
     const reader = new FileReader();
-    reader.onload = (e) => {
-      updatePersonalInfo("profileImage", e.target.result);
-    };
+    reader.onload = (e) => updatePersonalInfo("profileImage", e.target.result);
     reader.readAsDataURL(file);
   };
 
-  const onButtonClick = () => {
-    inputRef.current.click();
-  };
-
-  const removeImage = () => {
-    updatePersonalInfo("profileImage", null);
-  };
+  const onButtonClick = () => inputRef.current.click();
+  const removeImage = () => updatePersonalInfo("profileImage", null);
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-[#5E503F] mb-3">
-        Personal Information
-      </h3>
+      <h3 className="text-lg font-semibold text-[#5E503F]">Personal Information</h3>
 
-      <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
-        {/* Conditionally render profile image section */}
+      <div className="flex flex-col lg:flex-row gap-6">
         {showProfileImage && (
-          <div className="w-full md:w-1/3 flex flex-col items-center">
-            <div className="relative w-40 h-40">
+          <div className="w-full lg:w-1/3 flex flex-col items-center">
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40">
               {personalInfo.profileImage ? (
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-[#A9927D] shadow-lg">
                   <img
@@ -79,8 +61,8 @@ export function PersonalInfoSection({
                   />
                   <button
                     onClick={removeImage}
-                    className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
-                    title="Remove image"
+                    className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
+                    aria-label="Remove photo"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -100,10 +82,8 @@ export function PersonalInfoSection({
                 </div>
               ) : (
                 <div
-                  className={`w-full h-full rounded-full border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all ${
-                    dragActive
-                      ? "border-[#5E503F] bg-[#f8f4f0]"
-                      : "border-gray-300"
+                  className={`w-full h-full rounded-full border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition ${
+                    dragActive ? "border-[#5E503F] bg-[#f8f4f0]" : "border-gray-300"
                   }`}
                   onClick={onButtonClick}
                   onDragEnter={handleDrag}
@@ -112,7 +92,7 @@ export function PersonalInfoSection({
                   onDrop={handleDrop}
                 >
                   <svg
-                    className="w-12 h-12 text-gray-400"
+                    className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -123,7 +103,7 @@ export function PersonalInfoSection({
                       strokeLinejoin="round"
                       strokeWidth="2"
                       d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    ></path>
+                    />
                   </svg>
                   <span className="text-sm text-gray-500 mt-2">Add Photo</span>
                 </div>
@@ -138,7 +118,7 @@ export function PersonalInfoSection({
             />
             <button
               onClick={onButtonClick}
-              className="mt-4 px-4 py-2 bg-[#A9927D] text-white rounded-md hover:bg-[#8a7967] transition-colors shadow-md"
+              className="mt-4 px-4 py-2 bg-[#A9927D] text-white rounded-md hover:bg-[#8a7967] transition shadow-md w-full sm:w-auto"
             >
               {personalInfo.profileImage ? "Change Photo" : "Upload Photo"}
             </button>
@@ -148,9 +128,7 @@ export function PersonalInfoSection({
           </div>
         )}
 
-        <div
-          className={`w-full ${showProfileImage ? "md:w-2/3" : ""} space-y-4`}
-        >
+        <div className={`w-full ${showProfileImage ? "lg:w-2/3" : ""} space-y-4`}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -163,7 +141,6 @@ export function PersonalInfoSection({
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A9927D]"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Job Title
@@ -189,7 +166,6 @@ export function PersonalInfoSection({
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A9927D]"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Phone
@@ -202,32 +178,32 @@ export function PersonalInfoSection({
               />
             </div>
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Location
+            </label>
+            <input
+              type="text"
+              value={personalInfo.location}
+              onChange={(e) => updatePersonalInfo("location", e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A9927D]"
+              placeholder="City, State/Province, Country"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Professional Summary
+            </label>
+            <textarea
+              value={personalInfo.summary}
+              onChange={(e) => updatePersonalInfo("summary", e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A9927D] min-h-[120px]"
+              placeholder="Write a short summary about yourself and your professional goals..."
+            />
+          </div>
         </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Location
-        </label>
-        <input
-          type="text"
-          value={personalInfo.location}
-          onChange={(e) => updatePersonalInfo("location", e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A9927D]"
-          placeholder="City, State/Province, Country"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Professional Summary
-        </label>
-        <textarea
-          value={personalInfo.summary}
-          onChange={(e) => updatePersonalInfo("summary", e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#A9927D] h-32"
-          placeholder="Write a short summary about yourself and your professional goals..."
-        ></textarea>
       </div>
     </div>
   );

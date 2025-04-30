@@ -23,6 +23,11 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
 
   const tabs = [
     {
+      id: "generate",
+      label: "Generate Resume",
+      icon: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z",
+    },
+    {
       id: "editor",
       label: "Editor",
       icon: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z",
@@ -57,12 +62,12 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
 
   return (
     <>
-      {/* Mobile toggle button - fixed position */}
-      {isMobileView && (
+      {/* External mobile toggle button - only visible when sidebar is closed */}
+      {isMobileView && !isMobileMenuOpen && (
         <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="fixed bottom-4 left-4 z-50 p-3 rounded-full bg-[#22333B] text-white shadow-lg hover:bg-[#5E503F] transition-colors duration-300"
-          aria-label="Toggle Sidebar"
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="fixed top-4 left-4 z-50 p-2 rounded-md bg-[#22333B] text-white shadow-lg hover:bg-[#5E503F] transition-colors duration-300"
+          aria-label="Open Sidebar"
         >
           <svg
             className="w-6 h-6"
@@ -71,21 +76,12 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {isMobileMenuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
       )}
@@ -100,24 +96,48 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
             : "w-64 h-screen sticky top-0"
         } bg-gradient-to-b from-[#22333B] to-[#1D2B32] text-gray-100 flex flex-col transition-transform duration-300 ease-in-out shadow-xl`}
       >
-        {/* User info and logout at the top */}
-        <div className="p-4 flex items-center border-b border-[#5E503F]/30">
-          <div className="flex items-center w-full">
+        {/* User info at the top with toggle button for closing */}
+        <div className="p-4 flex items-center justify-between border-b border-[#5E503F]/30">
+          <div className="flex items-center">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#A9927D] to-[#5E503F] flex items-center justify-center text-white font-medium shadow-md shrink-0">
               {avatarInitial}
             </div>
             <div className="ml-3 overflow-hidden">
-              <span className="font-medium truncate w-40 inline-block">
+              <span className="font-medium truncate w-32 inline-block">
                 {displayName}
               </span>
-              <span className="text-xs text-gray-300 opacity-70 truncate w-40 inline-block">
+              <span className="text-xs text-gray-300 opacity-70 truncate w-32 inline-block">
                 {user?.email ? user.email : "Resume Builder"}
               </span>
             </div>
           </div>
+          
+          {/* Close button - only visible in mobile view when sidebar is open */}
+          {isMobileView && (
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 rounded-full bg-[#5E503F]/30 text-white hover:bg-[#5E503F]/50 transition-colors"
+              aria-label="Close Sidebar"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          )}
         </div>
 
-        <div className="px-4 flex-grow overflow-y-auto">
+        <div className="px-4">
           <nav className="mt-6">
             <ul className="space-y-2">
               {tabs.map((tab) => (
@@ -157,62 +177,41 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
               ))}
             </ul>
           </nav>
-        </div>
-
-        {/* AI Assistant Card */}
-        <div className="p-4 mt-auto">
-          <div className="bg-gradient-to-br from-[#0A0908] to-[#1A1918] p-4 rounded-lg shadow-inner border border-[#5E503F]/20">
-            <div className="flex items-center mb-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
-                <svg
-                  className="w-5 h-5 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  ></path>
-                </svg>
+          
+          {/* AI Assistant Card - moved up to below the tabs */}
+          <div className="mt-6 mb-6">
+            <div className="bg-gradient-to-br from-[#0A0908] to-[#1A1918] p-4 rounded-lg shadow-inner border border-[#5E503F]/20">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 className="font-medium text-white ml-2">AI Assistant</h3>
               </div>
-              <h3 className="font-medium text-white ml-2">AI Assistant</h3>
+              <p className="text-sm text-gray-300 mb-3">
+                Need help with your resume? Ask our AI assistant for suggestions!
+              </p>
+              <button className="w-full bg-gradient-to-r from-[#A9927D] to-[#5E503F] text-white py-2 rounded-md hover:from-[#5E503F] hover:to-[#A9927D] transition duration-300 shadow-md">
+                Ask AI for Help
+              </button>
             </div>
-            <p className="text-sm text-gray-300 mb-3">
-              Need help with your resume? Ask our AI assistant for suggestions!
-            </p>
-            <button className="w-full bg-gradient-to-r from-[#A9927D] to-[#5E503F] text-white py-2 rounded-md hover:from-[#5E503F] hover:to-[#A9927D] transition duration-300 shadow-md">
-              Ask AI for Help
-            </button>
           </div>
         </div>
-
-        {/* Mobile close button - only visible on mobile */}
-        {isMobileView && isMobileMenuOpen && (
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="absolute top-4 right-4 p-2 rounded-full bg-[#5E503F]/30 text-white md:hidden"
-            aria-label="Close Sidebar"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-        )}
+        
+        {/* Added a spacer to push content to the top when not enough content */}
+        <div className="flex-grow"></div>
       </aside>
 
       {/* Overlay when mobile menu is open */}
