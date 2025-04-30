@@ -93,7 +93,7 @@ export default function ResumeBuilder({ user, onLogout }) {
       [section]: data,
     }));
   };
-// 
+  
   const saveResume = async () => {
     if (!user) {
       showWarningToast("Please log in to save your resume");
