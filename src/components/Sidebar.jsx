@@ -117,7 +117,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
           </div>
         </div>
 
-        <div className="px-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-[#5E503F] scrollbar-track-transparent">
+        <div className="px-4 flex-grow overflow-y-auto">
           <nav className="mt-6">
             <ul className="space-y-2">
               {tabs.map((tab) => (
@@ -129,7 +129,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
                     }}
                     className={`w-full flex items-center p-3 rounded-lg transition-all duration-300 ${
                       activeTab === tab.id
-                        ? "bg-[#5E503F] text-white shadow-md transform scale-102"
+                        ? "bg-[#5E503F] text-white shadow-md"
                         : "text-gray-300 hover:bg-[#5E503F]/30 hover:translate-x-1"
                     }`}
                   >
@@ -184,7 +184,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
             <p className="text-sm text-gray-300 mb-3">
               Need help with your resume? Ask our AI assistant for suggestions!
             </p>
-            <button className="w-full bg-gradient-to-r from-[#A9927D] to-[#5E503F] text-white py-2 rounded-md hover:from-[#5E503F] hover:to-[#A9927D] transition duration-300 shadow-md transform hover:-translate-y-0.5">
+            <button className="w-full bg-gradient-to-r from-[#A9927D] to-[#5E503F] text-white py-2 rounded-md hover:from-[#5E503F] hover:to-[#A9927D] transition duration-300 shadow-md">
               Ask AI for Help
             </button>
           </div>
@@ -213,14 +213,12 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
             </svg>
           </button>
         )}
-
-        {/* Modal is now controlled by the parent component */}
       </aside>
 
       {/* Overlay when mobile menu is open */}
       {isMobileView && isMobileMenuOpen && (
         <div
-          className="fixed inset-0 backdrop-blur-xs bg-opacity-50 z-30"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30"
           onClick={() => setIsMobileMenuOpen(false)}
         ></div>
       )}

@@ -43,23 +43,23 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
   ];
 
   return (
-    <div className="p-6 overflow-y-auto">
-      <h2 className="text-2xl font-bold text-[#0A0908] mb-6">
+    <div className="p-4 md:p-6 overflow-y-auto max-h-screen">
+      <h2 className="text-xl md:text-2xl font-bold text-[#0A0908] mb-4 md:mb-6">
         Choose a Template
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {templates.map((template) => (
           <div
             key={template.id}
-            className={`border rounded-lg overflow-hidden cursor-pointer transition-all ${
+            className={`border rounded-lg overflow-hidden cursor-pointer transition-all hover:shadow-md ${
               selectedTemplate === template.id
-                ? "border-[#22333B] ring-2 ring-[#22333B] transform scale-105"
+                ? "border-[#22333B] ring-2 ring-[#22333B] transform scale-102"
                 : "border-gray-200 hover:border-[#A9927D]"
             }`}
             onClick={() => setSelectedTemplate(template.id)}
           >
-            <div className="h-48 bg-white p-3 flex items-center justify-center">
+            <div className="h-36 md:h-48 bg-white p-3 flex items-center justify-center">
               {template.id === "modern" && (
                 <div className="w-full h-full flex flex-col">
                   <div className="bg-[#22333B] h-1/3 w-full p-2">
@@ -208,12 +208,14 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
                 </div>
               )}
             </div>
-            <div className="p-4 bg-white border-t border-gray-200 h-full">
-              <h3 className="font-bold text-[#0A0908]">{template.name}</h3>
-              <p className="text-sm text-gray-600 mt-1">
+            <div className="p-3 md:p-4 bg-white border-t border-gray-200">
+              <h3 className="font-bold text-[#0A0908] text-sm md:text-base">
+                {template.name}
+              </h3>
+              <p className="text-xs md:text-sm text-gray-600 mt-1 line-clamp-2">
                 {template.description}
               </p>
-              <div className="mt-3 flex justify-between items-center">
+              <div className="mt-2 md:mt-3 flex justify-between items-center">
                 <span className="text-xs text-gray-500">Click to preview</span>
                 {selectedTemplate === template.id && (
                   <span className="text-xs bg-[#22333B] text-white px-2 py-1 rounded-full">
@@ -228,4 +230,5 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
     </div>
   );
 }
+
 export default TemplateSelector;

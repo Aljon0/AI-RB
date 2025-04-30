@@ -29,13 +29,15 @@ export function SavedResumes({ savedResumes, loadResume, deleteResume }) {
   };
 
   return (
-    <div className="p-6 overflow-y-auto">
-      <h2 className="text-2xl font-bold text-[#0A0908] mb-6">Saved Resumes</h2>
+    <div className="p-4 md:p-6 overflow-y-auto max-h-screen">
+      <h2 className="text-xl md:text-2xl font-bold text-[#0A0908] mb-4 md:mb-6">
+        Saved Resumes
+      </h2>
 
       {savedResumes.length === 0 ? (
-        <div className="bg-white p-8 rounded-lg shadow-sm text-center">
+        <div className="bg-white p-6 md:p-8 rounded-lg shadow-sm text-center">
           <svg
-            className="w-12 h-12 mx-auto text-gray-400"
+            className="w-10 h-10 md:w-12 md:h-12 mx-auto text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -56,18 +58,18 @@ export function SavedResumes({ savedResumes, loadResume, deleteResume }) {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {savedResumes.map((resume) => (
             <div
               key={resume.id}
-              className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200"
+              className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
             >
               <div className="p-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="font-bold text-lg text-[#0A0908] truncate">
+                  <h3 className="font-bold text-lg text-[#0A0908] truncate max-w-[70%]">
                     {resume.name}
                   </h3>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-gray-500 whitespace-nowrap">
                     {new Date(resume.lastModified).toLocaleDateString()}
                   </span>
                 </div>
@@ -129,7 +131,7 @@ export function SavedResumes({ savedResumes, loadResume, deleteResume }) {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      Deleting...
+                      <span className="hidden xs:inline">Deleting...</span>
                     </>
                   ) : (
                     <>
@@ -159,12 +161,12 @@ export function SavedResumes({ savedResumes, loadResume, deleteResume }) {
 
       {/* Delete Confirmation Modal */}
       {showConfirmation && resumeToDelete && (
-        <div className="fixed inset-0 backdrop-blur-xs bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-[#F2F4F3] rounded-lg shadow-lg max-w-md w-full overflow-hidden border border-[#A9927D]">
-            <div className="bg-[#22333B] px-6 py-4">
-              <h3 className="text-lg font-medium text-white flex items-center">
+            <div className="bg-[#22333B] px-4 sm:px-6 py-3 sm:py-4">
+              <h3 className="text-base sm:text-lg font-medium text-white flex items-center">
                 <svg
-                  className="w-5 h-5 mr-2"
+                  className="w-4 h-4 sm:w-5 sm:h-5 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -180,26 +182,26 @@ export function SavedResumes({ savedResumes, loadResume, deleteResume }) {
                 Confirm Delete
               </h3>
             </div>
-            <div className="px-6 py-4">
-              <p className="text-[#0A0908]">
+            <div className="px-4 sm:px-6 py-3 sm:py-4">
+              <p className="text-[#0A0908] text-sm sm:text-base">
                 Are you sure you want to delete{" "}
                 <span className="font-semibold">"{resumeToDelete.name}"</span>?
                 This action cannot be undone.
               </p>
             </div>
-            <div className="bg-gray-50 px-6 py-3 flex justify-end space-x-3">
+            <div className="bg-gray-50 px-4 sm:px-6 py-2 sm:py-3 flex justify-end space-x-2 sm:space-x-3">
               <button
                 onClick={cancelDelete}
-                className="px-4 py-2 rounded-md border border-[#A9927D] text-[#5E503F] hover:bg-[#A9927D] hover:text-white transition"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm rounded-md border border-[#A9927D] text-[#5E503F] hover:bg-[#A9927D] hover:text-white transition"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition flex items-center"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700 transition flex items-center"
               >
                 <svg
-                  className="w-4 h-4 mr-1"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
