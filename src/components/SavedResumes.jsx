@@ -161,7 +161,7 @@ export function SavedResumes({ savedResumes, loadResume, deleteResume }) {
 
       {/* Delete Confirmation Modal */}
       {showConfirmation && resumeToDelete && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-[#F2F4F3] rounded-lg shadow-lg max-w-md w-full overflow-hidden border border-[#A9927D]">
             <div className="bg-[#22333B] px-4 sm:px-6 py-3 sm:py-4">
               <h3 className="text-base sm:text-lg font-medium text-white flex items-center">
