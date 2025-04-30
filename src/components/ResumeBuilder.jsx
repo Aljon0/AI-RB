@@ -192,10 +192,9 @@ export default function ResumeBuilder({ user, onLogout }) {
             </div>
           ) : (
             <>
-              {activeTab === "generate" &&
-                <GenerateResumePage/>}
+              {activeTab === "generate" && <GenerateResumePage />}
               {activeTab === "editor" && (
-                <div className="flex flex-1 overflow-hidden">
+                <div className="flex-1 flex flex-col lg:flex-row overflow-auto">
                   <ResumeForm
                     resumeData={resumeData}
                     handleDataChange={handleDataChange}
@@ -204,6 +203,8 @@ export default function ResumeBuilder({ user, onLogout }) {
                   <ResumePreview
                     resumeData={resumeData}
                     template={selectedTemplate}
+                    saveResume={saveResume}
+                    isSaving={isSaving}
                   />
                 </div>
               )}

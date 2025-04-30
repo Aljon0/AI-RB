@@ -138,3 +138,5 @@ export function EducationSection({
     </div>
   );
 }
+
+export default EducationSection;

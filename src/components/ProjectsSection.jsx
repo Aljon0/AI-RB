@@ -104,3 +104,5 @@ export function ProjectsSection({
     </div>
   );
 }
+
+export default ProjectsSection;

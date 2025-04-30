@@ -177,37 +177,6 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
               ))}
             </ul>
           </nav>
-          
-          {/* AI Assistant Card - moved up to below the tabs */}
-          <div className="mt-6 mb-6">
-            <div className="bg-gradient-to-br from-[#0A0908] to-[#1A1918] p-4 rounded-lg shadow-inner border border-[#5E503F]/20">
-              <div className="flex items-center mb-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    ></path>
-                  </svg>
-                </div>
-                <h3 className="font-medium text-white ml-2">AI Assistant</h3>
-              </div>
-              <p className="text-sm text-gray-300 mb-3">
-                Need help with your resume? Ask our AI assistant for suggestions!
-              </p>
-              <button className="w-full bg-gradient-to-r from-[#A9927D] to-[#5E503F] text-white py-2 rounded-md hover:from-[#5E503F] hover:to-[#A9927D] transition duration-300 shadow-md">
-                Ask AI for Help
-              </button>
-            </div>
-          </div>
         </div>
         
         {/* Added a spacer to push content to the top when not enough content */}

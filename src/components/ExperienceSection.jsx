@@ -141,3 +141,5 @@ export function ExperienceSection({
     </div>
   );
 }
+
+export default ExperienceSection;

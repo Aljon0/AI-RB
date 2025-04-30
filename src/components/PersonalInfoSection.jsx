@@ -208,3 +208,5 @@ export function PersonalInfoSection({
     </div>
   );
 }
+
+export default PersonalInfoSection;

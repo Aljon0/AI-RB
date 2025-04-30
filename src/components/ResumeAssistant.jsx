@@ -37,8 +37,27 @@ const ResumeAssistant = () => {
   
     return (
       <div className="bg-white rounded-lg shadow-lg p-4">
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="font-bold text-[#22333B]">Resume Assistant</h2>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center mr-3">
+              <svg
+                className="w-5 h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <h2 className="font-bold text-[#22333B]">Resume Assistant</h2>
+          </div>
+          
           <div className="relative">
             <input
               type="file"

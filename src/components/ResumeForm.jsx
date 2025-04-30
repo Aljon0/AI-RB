@@ -132,7 +132,7 @@ export function ResumeForm({ resumeData, handleDataChange, selectedTemplate }) {
         setActiveSection={setActiveSection}
       />
 
-      <div className="mt-4 lg:mt-6">
+      <div className="mt-3 lg:mt-6">
         {activeSection === "personalInfo" && (
           <PersonalInfoSection
             personalInfo={resumeData.personalInfo}
