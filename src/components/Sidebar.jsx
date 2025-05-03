@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Sidebar({ activeTab, setActiveTab, user, username }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,11 +22,6 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
   }, []);
 
   const tabs = [
-    {
-      id: "generate",
-      label: "Generate Resume",
-      icon: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z",
-    },
     {
       id: "editor",
       label: "Editor",
@@ -111,7 +106,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
               </span>
             </div>
           </div>
-          
+
           {/* Close button - only visible in mobile view when sidebar is open */}
           {isMobileView && (
             <button
@@ -178,7 +173,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
             </ul>
           </nav>
         </div>
-        
+
         {/* Added a spacer to push content to the top when not enough content */}
         <div className="flex-grow"></div>
       </aside>

@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import html2pdf from "html2pdf.js";
 import ResumeTemplate from "./ResumeTemplate";
 
 export function ResumePreview({ resumeData, template, saveResume, isSaving }) {
@@ -9,28 +8,46 @@ export function ResumePreview({ resumeData, template, saveResume, isSaving }) {
   const showProfileImage = ["professional", "tech"].includes(template);
 
   const handleDownloadPDF = () => {
-    const element = resumeRef.current;
-    const opt = {
-      margin: 10,
-      filename: `${resumeData.personalInfo?.name || "resume"}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        logging: true,
-        useCORS: true,
-        allowTaint: true,
-        letterRendering: true,
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-    };
+    const printWindow = window.open("", "_blank");
+    const resumeHtml = resumeRef.current.innerHTML;
 
-    // Generate the PDF
-    html2pdf()
-      .set(opt)
-      .from(element)
-      .save()
-      .catch((err) => console.error("Error generating PDF:", err));
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${resumeData.personalInfo?.name || "Resume"}</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <style>
+            @media print {
+              body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+              }
+              @page {
+                size: A4;
+                margin: 10mm;
+              }
+            }
+          </style>
+        </head>
+        <body class="bg-white">
+          <div class="w-full max-w-4xl mx-auto p-4">
+            ${resumeHtml}
+          </div>
+          <script>
+            window.onload = function() {
+              setTimeout(function() {
+                window.print();
+                window.onafterprint = function() {
+                  window.close();
+                };
+              }, 200);
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
   };
 
   return (
@@ -52,6 +69,12 @@ export function ResumePreview({ resumeData, template, saveResume, isSaving }) {
             },
           }}
         />
+      </div>
+
+      {/* Tip text added above the buttons */}
+      <div className="mb-3 text-center text-sm text-gray-600 italic">
+        Tip: For best results, uncheck "Headers and Footers" in the print
+        settings before saving to PDF.
       </div>
 
       <div className="mt-auto flex flex-col sm:flex-row justify-center gap-4">
@@ -94,12 +117,12 @@ export function ResumePreview({ resumeData, template, saveResume, isSaving }) {
               <svg
                 className="w-5 h-5 mr-2"
                 fill="none"
-                stroke="currentColor"  
+                stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  strokeLinecap="round" 
+                  strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
@@ -109,7 +132,7 @@ export function ResumePreview({ resumeData, template, saveResume, isSaving }) {
             </>
           )}
         </button>
-        
+
         {/* Download PDF button */}
         <button
           onClick={handleDownloadPDF}

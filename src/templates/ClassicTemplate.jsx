@@ -1,10 +1,10 @@
+import { ContactItem } from "../components/TemplateHeader";
 import {
-  ExperienceSection,
   EducationSection,
+  ExperienceSection,
   ProjectsSection,
   Section,
 } from "../components/TemplateSection";
-import { ContactItem } from "../components/TemplateHeader";
 
 export default function ClassicTemplate({ resumeData }) {
   return (

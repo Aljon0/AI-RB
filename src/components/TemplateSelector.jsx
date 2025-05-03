@@ -208,7 +208,7 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }) {
                 </div>
               )}
             </div>
-            <div className="p-3 md:p-4 bg-white border-t border-gray-200">
+            <div className="p-3 md:p-4 bg-white border-t border-gray-200 h-full">
               <h3 className="font-bold text-[#0A0908] text-sm md:text-base">
                 {template.name}
               </h3>

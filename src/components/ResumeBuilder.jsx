@@ -1,22 +1,22 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
+import {
+  deleteResumeFromFirestore,
+  getUserResumes,
+  saveResumeToFirestore,
+} from "../firebase";
+import GenerateResumePage from "../pages/GenerateResumepage";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from "./CustomToast";
 import Header from "./Header";
 import ResumeForm from "./ResumeForm";
 import ResumePreview from "./ResumePreview";
 import SavedResumes from "./SavedResumes";
 import Sidebar from "./Sidebar";
 import TemplateSelector from "./TemplateSelector";
-import GenerateResumePage from "../pages/GenerateResumepage";
-import {
-  saveResumeToFirestore,
-  getUserResumes,
-  deleteResumeFromFirestore,
-} from "../firebase";
-import {
-  showErrorToast,
-  showSuccessToast,
-  showWarningToast,
-} from "./CustomToast";
 
 export default function ResumeBuilder({ user, onLogout }) {
   const [activeTab, setActiveTab] = useState("generate");
@@ -93,7 +93,7 @@ export default function ResumeBuilder({ user, onLogout }) {
       [section]: data,
     }));
   };
-  
+
   const saveResume = async () => {
     if (!user) {
       showWarningToast("Please log in to save your resume");
