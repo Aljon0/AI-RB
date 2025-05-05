@@ -88,7 +88,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, username }) {
             ? isMobileMenuOpen
               ? "fixed inset-y-0 left-0 z-40 w-64 transform translate-x-0"
               : "fixed inset-y-0 left-0 z-40 w-64 transform -translate-x-full"
-            : "w-64 h-screen sticky top-0"
+            : "w-64 max-h-full sticky top-0"
         } bg-gradient-to-b from-[#22333B] to-[#1D2B32] text-gray-100 flex flex-col transition-transform duration-300 ease-in-out shadow-xl`}
       >
         {/* User info at the top with toggle button for closing */}
