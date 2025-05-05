@@ -28,7 +28,7 @@ export default function SkillsSection({
   
     try {
       // Connect to your Express backend
-      const response = await fetch("http://localhost:5000/api/get-skills-suggestions", {
+      const response = await fetch("https://ai-rb-api.onrender.com/api/get-skills-suggestions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
