@@ -18,7 +18,7 @@ import Sidebar from "./Sidebar";
 import TemplateSelector from "./TemplateSelector";
 
 export default function ResumeBuilder({ user, onLogout }) {
-  const [activeTab, setActiveTab] = useState("generate");
+  const [activeTab, setActiveTab] = useState("editor");
   const [resumeData, setResumeData] = useState({
     personalInfo: {
       name: user?.displayName || "",
@@ -191,7 +191,6 @@ export default function ResumeBuilder({ user, onLogout }) {
             </div>
           ) : (
             <>
-              {activeTab === "generate" && <GenerateResumePage />}
               {activeTab === "editor" && (
                 <div className="flex-1 flex flex-col lg:flex-row overflow-auto">
                   <ResumeForm
