@@ -5,7 +5,6 @@ import {
   getUserResumes,
   saveResumeToFirestore,
 } from "../firebase";
-import GenerateResumePage from "../pages/GenerateResumepage";
 import {
   showErrorToast,
   showSuccessToast,
