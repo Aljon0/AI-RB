@@ -9,9 +9,10 @@ import { RegisterPage } from "./pages/RegisterPage";
 import ResumeBuilder from "./components/ResumeBuilder";
 import { useAuth } from "./hooks/useAuth";
 import { logout } from "./services/auth";
+import Header from "./components/Header";
 
 function App() {
-  const { user, loading } = useAuth();
+  const { user, loading, username } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <Router>
+      {user && <Header user={user} username={username} onLogout={handleLogout} />}
       <Routes>
         <Route
           path="/"
@@ -44,11 +46,23 @@ function App() {
         />
         <Route
           path="/login"
-          element={user ? <Navigate to="/" replace /> : <LoginPage />}
+          element={
+            user ? (
+              <Navigate to="/" replace />
+            ) : (
+              <LoginPage onLogin={() => {}} />
+            )
+          }
         />
         <Route
           path="/register"
-          element={user ? <Navigate to="/" replace /> : <RegisterPage />}
+          element={
+            user ? (
+              <Navigate to="/" replace />
+            ) : (
+              <RegisterPage onRegister={() => {}} />
+            )
+          }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

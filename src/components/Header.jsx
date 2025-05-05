@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import LogoutConfirmationModal from "./LogoutConfirmationModal";
 
-function Header({ user, username, onLogout }) {
+function Header({ user, username, onLogout = () => {} }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -14,6 +14,11 @@ function Header({ user, username, onLogout }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = () => {
+    setShowLogoutModal(false);
+    onLogout();
+  };
 
   return (
     <>
@@ -147,10 +152,7 @@ function Header({ user, username, onLogout }) {
       <LogoutConfirmationModal
         isOpen={showLogoutModal}
         onClose={() => setShowLogoutModal(false)}
-        onConfirm={() => {
-          setShowLogoutModal(false);
-          onLogout();
-        }}
+        onConfirm={handleLogout}
       />
     </>
   );

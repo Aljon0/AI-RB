@@ -10,7 +10,6 @@ import {
   showSuccessToast,
   showWarningToast,
 } from "./CustomToast";
-import Header from "./Header";
 import ResumeForm from "./ResumeForm";
 import ResumePreview from "./ResumePreview";
 import SavedResumes from "./SavedResumes";
@@ -147,12 +146,6 @@ export default function ResumeBuilder({ user, onLogout }) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header
-        saveResume={saveResume}
-        user={user}
-        selectedTemplate={selectedTemplate}
-        isSaving={isSaving}
-      />
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
