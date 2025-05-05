@@ -6,6 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -77,6 +78,11 @@ export const logoutUser = async () => {
 export const signInWithGoogle = async () => {
   const userCredential = await signInWithPopup(auth, googleProvider);
   return userCredential.user;
+};
+
+export const resetPassword = async (email) => {
+  await sendPasswordResetEmail(auth, email);
+  return true;
 };
 
 // Firestore Functions
