@@ -7,6 +7,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
+  signInAnonymously,
+  updateProfile,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -83,6 +85,18 @@ export const signInWithGoogle = async () => {
 export const resetPassword = async (email) => {
   await sendPasswordResetEmail(auth, email);
   return true;
+};
+
+// New function for demo/anonymous login
+export const signInWithDemo = async () => {
+  const userCredential = await signInAnonymously(auth);
+  
+  // Set a display name for the anonymous user to make it clear this is a demo account
+  await updateProfile(userCredential.user, {
+    displayName: "Demo User"
+  });
+  
+  return userCredential.user;
 };
 
 // Firestore Functions
