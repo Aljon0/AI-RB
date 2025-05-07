@@ -1,12 +1,71 @@
-# React + Vite
+# 🧠 AI-Resume Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**AI-Resume Builder** is an intelligent web application that simplifies the resume creation process by leveraging **Mistral AI** for real-time skill suggestions based on job titles. With sleek templates and PDF export functionality, users can build professional resumes quickly and efficiently.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo  
+🔗 [https://ai-rb-haee.onrender.com](https://ai-rb-haee.onrender.com)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📌 Features
+
+- 🧠 **AI-Powered Skill Suggestions**  
+  Automatically recommends skills based on job titles using Mistral AI.
+
+- 🎨 **Customizable Templates**  
+  Select from modern, Tailwind CSS-styled templates.
+
+- 📄 **PDF Export**  
+  Generate and download resumes in professional PDF format.
+
+- ☁️ **Firebase Integration**  
+  Save and retrieve resumes securely using Firebase Firestore.
+
+- 🔐 **User Authentication**  
+  Secure login and registration powered by Firebase Authentication.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer           | Technology                         |
+|------------------|--------------------------------------|
+| **Frontend**     | React.js, Tailwind CSS              |
+| **Backend**      | Express.js (Node.js)                |
+| **Database**     | Firebase Firestore                  |
+| **Authentication** | Firebase Authentication            |
+| **AI Integration**| Mistral AI                          |
+
+---
+
+## 📦 Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/ai-resume-builder.git
+   cd ai-resume-builder
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file and add your Firebase and Mistral API credentials:
+   ```env
+   VITE_FIREBASE_API_KEY=your_firebase_key
+   VITE_MISTRAL_API_KEY=your_mistral_key
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 📄 License
+
+This project is open source and free to use under the MIT License.
