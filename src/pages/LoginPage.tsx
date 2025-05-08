@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { login, loginWithGoogle, resetPassword } from "../services/auth";
+import { login, loginWithGoogle, resetPassword, signInWithDemo } from "../services/auth";
 import {
   CustomToastContainer,
   CustomToastCSS,
@@ -69,18 +69,9 @@ export function LoginPage({ onLogin }: LoginPageProps) {
     setDemoLoading(true);
 
     try {
-      // Replace with your actual demo sign-in logic
-      const demoUser: User = {
-        uid: "demo-uid",
-        email: null,
-        emailVerified: false,
-        displayName: "Demo User",
-        photoURL: null,
-        isAnonymous: true,
-      };
-      
+      const user = await signInWithDemo();
       showSuccessToast("Welcome to the demo! You can now explore all features.");
-      onLogin(demoUser);
+      onLogin(user);
     } catch (error) {
       console.error("Demo login error:", error);
       showErrorToast(getErrorMessage(error));
@@ -139,6 +130,8 @@ export function LoginPage({ onLogin }: LoginPageProps) {
           return "Network error. Please check your internet connection";
         case "auth/missing-email":
           return "Please enter your email address";
+        case "auth/operation-not-allowed":
+          return "Anonymous sign-in is not enabled";
         default:
           return `Login failed: ${errorCode}`;
       }
@@ -333,7 +326,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
                 </button>
               </form>
 
-              {/* Demo Account Button - New Addition */}
+              {/* Demo Account Button */}
               <div className="mt-4">
                 <button
                   type="button"

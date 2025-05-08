@@ -41,7 +41,7 @@ export function TemplateHeader({ personalInfo, isDark = false }: TemplateHeaderP
   );
 }
 
-export function ContactItem({ icon, value, email, phone, location }: ContactItemProps) {
+export function ContactItem({ icon, value }: ContactItemProps) {
   const icons = {
     email: (
       <path

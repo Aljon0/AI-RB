@@ -6,6 +6,7 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
   signInWithPopup,
+  signInAnonymously,
   User as FirebaseUser,
   UserCredential,
 } from "firebase/auth";
@@ -48,6 +49,18 @@ export const loginWithGoogle = async (): Promise<User> => {
   return formatUserData(userCredential.user);
 };
 
+// Demo/Anonymous login
+export const signInWithDemo = async (): Promise<User> => {
+  const userCredential = await signInAnonymously(auth);
+  
+  // Set a display name for the anonymous user
+  await updateProfile(userCredential.user, {
+    displayName: "Demo User"
+  });
+
+  return formatUserData(userCredential.user);
+};
+
 // Logout the current user
 export const logout = async (): Promise<void> => {
   await signOut(auth);
@@ -73,6 +86,7 @@ export const formatUserData = (user: FirebaseUser): User => {
     displayName:
       user.displayName || (user.email ? user.email.split("@")[0] : "User"),
     photoURL: user.photoURL,
+    isAnonymous: user.isAnonymous,
     createdAt: user.metadata.creationTime || undefined,
   };
 };

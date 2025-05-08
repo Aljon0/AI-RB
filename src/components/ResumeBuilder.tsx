@@ -14,14 +14,14 @@ import ResumePreview from "./ResumePreview";
 import SavedResumes from "./SavedResumes";
 import Sidebar from "./Sidebar";
 import TemplateSelector from "./TemplateSelector";
-import { Education, Experience, Project, ResumeData, Resume, User } from "../utils/types";
+import { ResumeData, Resume, User } from "../utils/types";
 
 interface ResumeBuilderProps {
   user: User | null;
   onLogout: () => void;
 }
 
-export default function ResumeBuilder({ user, onLogout }: ResumeBuilderProps) {
+export default function ResumeBuilder({ user }: ResumeBuilderProps) {
   const [activeTab, setActiveTab] = useState<string>("editor");
   const [resumeData, setResumeData] = useState<ResumeData>({
     personalInfo: {

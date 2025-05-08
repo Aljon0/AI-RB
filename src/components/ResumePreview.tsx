@@ -61,7 +61,7 @@ export function ResumePreview({ resumeData, template, saveResume, isSaving }: Re
   };
 
   return (
-    <div className="w-full lg:w-1/2 bg-[#F2F4F3] p-4 lg:p-6 overflow-y-auto flex flex-col order-2 lg:order-none">
+    <div className="w-full lg:w-3/5 bg-[#F2F4F3] p-4 lg:p-6 overflow-y-auto flex flex-col order-2 lg:order-none">
       <div
         ref={resumeRef}
         className="bg-white shadow-lg rounded-lg overflow-hidden flex-1 mb-4"
