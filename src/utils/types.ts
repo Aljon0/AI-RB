@@ -1,4 +1,4 @@
-// types.ts
+// Updated types.ts
 export type User = {
   uid: string;
   email: string | null;
@@ -21,7 +21,7 @@ export type RegisterFormData = {
   confirmPassword: string;
 };
 
-export type Resumes = {
+export type Resume = {
   id: string;
   name: string;
   data: ResumeData;
@@ -70,7 +70,6 @@ export type ResumeData = {
   education: Education[];
   skills: string[];
   projects: Project[];
-  
 };
 
 export type TemplateProps = {
@@ -90,11 +89,6 @@ export type ContactItemProps = {
   location?: string;
 };
 
-export type PersonalInfoProps = Omit<
-  ContactItemProps,
-  "email" | "phone" | "location"
->;
-
 export type SectionProps = {
   title: string;
   children: React.ReactNode;
@@ -102,44 +96,21 @@ export type SectionProps = {
 };
 
 export type ExperienceSectionProps = {
-  experience: ExperienceDetailProps[];
-};
-
-export type ExperienceDetailProps = {
-  id: string;
-  position?: string;
-  startDate?: string;
-  endDate?: string;
+  experience: Experience[];
   company?: string;
-  description?: string;
 };
 
 export type EducationSectionProps = {
-  education: EducationDetailProps[];
-};
-
-export type EducationDetailProps = {
-  id: string;
-  degree?: string;
-  field?: string;
-  graduationDate?: string;
+  education: Education[];
   institution?: string;
-  gpa?: string;
-}
+};
 
 export type SkillsProps = {
   skills: string[];
-}
+};
 
-export type ProjectsProps ={
-  projects: ProjectDetailProps[];
-}
-
-export type ProjectDetailProps = {
-  id: string;
-  title?: string;
-  description?: string;
-  link?: string;
+export type ProjectsProps = {
+  projects: Project[];
 };
 
 export type TemplateSelectorProps = {
@@ -147,35 +118,35 @@ export type TemplateSelectorProps = {
   setSelectedTemplate: (template: string) => void;
   templates: string[];
   isDark?: boolean;
-}
+};
 
 export type TabNavigationProps = {
   sections: TabNavigationItemProps[];
   activeSection: string;
   setActiveSection: (sectionId: string) => void;
-}
+};
 
 export type TabNavigationItemProps = {
   id: string;
   label: string;
-}
+};
 
 export type HeaderProps = {
-  user: string | null;
+  user: User;
   username: string | null;
   onLogout?: () => void;
-}
+};
 
 export type LogoutConfirmationModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-}
+};
 
 export type ResumeTemplateProps = {
   template: string;
   resumeData: ResumeData;
-}
+};
 
 export type SidebarProps = {
   activeTab: string;
@@ -185,7 +156,7 @@ export type SidebarProps = {
   isMobileMenuOpen: boolean;
   setIsMobileMenuOpen: (isOpen: boolean) => void;
   windowWidth: number;
-}
+};
 
 export interface ToastConfig {
   position: string;
@@ -211,3 +182,11 @@ export interface ExperienceSectionMainProps {
   removeExperience: (index: number) => void;
 }
 
+export interface SkillsSectionProps {
+  skills: string[];
+  updateSkills: (index: number, value: string) => void;
+  addSkill: () => void;
+  removeSkill: (index: number) => void;
+  jobTitle?: string;
+  handleDataChange: (field: string, value: any) => void;
+}

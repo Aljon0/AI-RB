@@ -1,4 +1,13 @@
-import { EducationSectionProps, ExperienceSectionProps, ProjectsProps, SectionProps, SkillsProps } from "@/utils/types";
+import { 
+  EducationSectionProps, 
+  ExperienceSectionProps, 
+  ProjectsProps, 
+  SectionProps, 
+  SkillsProps,
+  Experience,
+  Education,
+  Project
+} from "@/utils/types";
 
 export function Section({ title, children, borderColor = "border-[#A9927D]" }: SectionProps) {
   return (
@@ -68,7 +77,7 @@ export function SkillsSection({ skills }: SkillsProps) {
 }
 
 export function ProjectsSection({ projects }: ProjectsProps) {
-  if (!projects.length || !projects) return null;
+  if (!projects.length) return null;
 
   return (
     <Section title="Projects">
@@ -83,8 +92,13 @@ export function ProjectsSection({ projects }: ProjectsProps) {
   );
 }
 
-// Individual item components
-function ExperienceItem({ exp, isLast }: { exp: { position: string; company: string; startDate: string; endDate: string; description: string }; isLast: boolean }) {
+// Individual item components with TypeScript interfaces
+interface ExperienceItemProps {
+  exp: Experience;
+  isLast: boolean;
+}
+
+function ExperienceItem({ exp, isLast }: ExperienceItemProps) {
   return (
     <div className={!isLast ? "mb-4" : ""}>
       <div className="flex justify-between items-center">
@@ -99,7 +113,12 @@ function ExperienceItem({ exp, isLast }: { exp: { position: string; company: str
   );
 }
 
-function EducationItem({ edu, isLast }: { edu: { degree: string; field?: string; graduationDate: string; institution: string; gpa?: string }; isLast: boolean }) {
+interface EducationItemProps {
+  edu: Education;
+  isLast: boolean;
+}
+
+function EducationItem({ edu, isLast }: EducationItemProps) {
   return (
     <div className={!isLast ? "mb-4" : ""}>
       <div className="flex justify-between items-center">
@@ -115,7 +134,12 @@ function EducationItem({ edu, isLast }: { edu: { degree: string; field?: string;
   );
 }
 
-function ProjectItem({ project, isLast }: { project: { title: string; description: string; link?: string }; isLast: boolean }) {
+interface ProjectItemProps {
+  project: Project;
+  isLast: boolean;
+}
+
+function ProjectItem({ project, isLast }: ProjectItemProps) {
   return (
     <div className={!isLast ? "mb-4" : ""}>
       <div className="flex justify-between items-center">
@@ -124,6 +148,8 @@ function ProjectItem({ project, isLast }: { project: { title: string; descriptio
           <a
             href={project.link}
             className="text-[#22333B] hover:underline text-sm"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             View Project
           </a>

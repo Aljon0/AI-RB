@@ -14,7 +14,7 @@ import ResumePreview from "./ResumePreview";
 import SavedResumes from "./SavedResumes";
 import Sidebar from "./Sidebar";
 import TemplateSelector from "./TemplateSelector";
-import { Education, Experience, Project, ResumeData, Resumes, User } from "../utils/types";
+import { Education, Experience, Project, ResumeData, Resume, User } from "../utils/types";
 
 interface ResumeBuilderProps {
   user: User | null;
@@ -56,7 +56,7 @@ export default function ResumeBuilder({ user, onLogout }: ResumeBuilderProps) {
     projects: [{ id: "1", title: "", description: "", link: "" }],
   });
   const [selectedTemplate, setSelectedTemplate] = useState<string>("modern");
-  const [savedResumes, setSavedResumes] = useState<Resumes[]>([]);
+  const [savedResumes, setSavedResumes] = useState<Resume[]>([]);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);

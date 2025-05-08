@@ -22,7 +22,7 @@ import {
   where,
   serverTimestamp,
 } from "firebase/firestore";
-import { Resumes } from "./utils/types";
+import { Resume } from "./utils/types";
 
 const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
 const authDomain = import.meta.env.VITE_FIREBASE_AUTH_DOMAIN;
@@ -161,7 +161,7 @@ export const getUserResumes = async () => {
     const q = query(resumesRef, where("userId", "==", user.uid));
 
     const querySnapshot = await getDocs(q);
-    const resumes: Resumes[] = [];
+    const resumes: Resume[] = [];
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();

@@ -173,7 +173,7 @@ export function ResumeForm({ resumeData, handleDataChange, selectedTemplate }: R
             addSkill={addSkill}
             removeSkill={removeSkill}
             jobTitle={resumeData.personalInfo.jobTitle}
-            handleDataChange={handleDataChange}
+            handleDataChange={(field, value) => handleDataChange(field as keyof ResumeData, value)}
           />
         )}
 

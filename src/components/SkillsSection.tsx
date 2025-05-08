@@ -1,18 +1,27 @@
 import { useState, useEffect } from "react";
 
+interface SkillsSectionProps {
+  skills: string[];
+  updateSkills: (index: number, value: string) => void;
+  addSkill: () => void;
+  removeSkill: (index: number) => void;
+  jobTitle?: string;
+  handleDataChange: (field: string, value: any) => void;
+}
+
 export default function SkillsSection({
   skills,
   updateSkills,
   addSkill,
   removeSkill,
-  jobTitle,
+  jobTitle = "",
   handleDataChange,
-}) {
-  const [suggestedSkills, setSuggestedSkills] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+}: SkillsSectionProps) {
+  const [suggestedSkills, setSuggestedSkills] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchAISuggestions = async (title) => {
+  const fetchAISuggestions = async (title: string) => {
     if (!title || title.trim() === "") {
       setSuggestedSkills([
         "Communication",
@@ -53,7 +62,7 @@ export default function SkillsSection({
   };
 
   // Function for local fallback suggestions
-  const getLocalSuggestions = (title = "") => {
+  const getLocalSuggestions = (title = ""): string[] => {
     const commonSkills = [
       "Communication",
       "Problem Solving",
@@ -76,7 +85,7 @@ export default function SkillsSection({
   };
   
   // Advanced mock suggestions while we fix the API route
-  const getMockSuggestionsForTitle = (title = "") => {
+  const getMockSuggestionsForTitle = (title = ""): string[] => {
     const commonSkills = [
       "Communication",
       "Problem Solving",
@@ -242,11 +251,11 @@ export default function SkillsSection({
 
   // Fetch suggestions when job title changes
   useEffect(() => {
-    fetchAISuggestions(jobTitle);
+    fetchAISuggestions(jobTitle || "");
   }, [jobTitle]);
 
   // Add a skill from suggestions
-  const addSuggestedSkill = (skill) => {
+  const addSuggestedSkill = (skill: string) => {
     if (!skills.includes(skill)) {
       handleDataChange("skills", [...skills, skill]);
     }
