@@ -5,7 +5,7 @@ export function TemplateHeader({ personalInfo, isDark = false }: TemplateHeaderP
     <div className={isDark ? "bg-[#22333B] text-white p-8" : ""}>
       <h1 className="text-3xl font-bold">{personalInfo.name || "Your Name"}</h1>
       <p className="text-xl mt-1">
-        {personalInfo.jobTitle || "Professional Title"}
+        {personalInfo.jobTitle}
       </p>
 
       <div className="flex flex-wrap mt-4 text-sm">
