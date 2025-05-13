@@ -1,6 +1,6 @@
-import { TemplateProps } from "../utils/types";
+import { ResumeData } from "../utils/types";
 
-export default function CreativeTemplate({ resumeData }: TemplateProps) {
+export default function CreativeTemplate({ resumeData }: { resumeData: ResumeData }) {
   return (
     <div className="h-full bg-[#f8f9fa]">
       {/* Header with accent diagonal */}

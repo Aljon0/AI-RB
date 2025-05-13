@@ -5,9 +5,9 @@ import {
   ProjectsSection,
   Section,
 } from "../components/TemplateSection";
-import { TemplateProps } from "../utils/types";
+import { ResumeData } from "../utils/types";
 
-export default function ClassicTemplate({ resumeData }: TemplateProps) {
+export default function ClassicTemplate({ resumeData }: { resumeData: ResumeData }) {
   return (
     <div className="h-full p-8">
       <div className="text-center mb-6">

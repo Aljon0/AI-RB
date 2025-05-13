@@ -22,8 +22,8 @@ export function Section({ title, children, borderColor = "border-[#A9927D]" }: S
   );
 }
 
-export function ExperienceSection({ experience, company }: ExperienceSectionProps) {
-  if (!experience.length || !company) return null;
+export function ExperienceSection({ experience }: ExperienceSectionProps) {
+  if (!experience || experience.length === 0) return null;
 
   return (
     <Section title="Work Experience">
@@ -38,8 +38,8 @@ export function ExperienceSection({ experience, company }: ExperienceSectionProp
   );
 }
 
-export function EducationSection({ education, institution }: EducationSectionProps) {
-  if (!education.length || !institution) return null;
+export function EducationSection({ education }: EducationSectionProps) {
+  if (!education || education.length === 0) return null;
 
   return (
     <Section title="Education">
@@ -55,7 +55,7 @@ export function EducationSection({ education, institution }: EducationSectionPro
 }
 
 export function SkillsSection({ skills }: SkillsProps) {
-  if (!skills.length || !skills[0]) return null;
+  if (!skills || skills.length === 0) return null;
 
   return (
     <Section title="Skills">
@@ -77,7 +77,7 @@ export function SkillsSection({ skills }: SkillsProps) {
 }
 
 export function ProjectsSection({ projects }: ProjectsProps) {
-  if (!projects.length) return null;
+  if (!projects || projects.length === 0) return null;
 
   return (
     <Section title="Projects">
@@ -92,7 +92,7 @@ export function ProjectsSection({ projects }: ProjectsProps) {
   );
 }
 
-// Individual item components with TypeScript interfaces
+// Individual item components
 interface ExperienceItemProps {
   exp: Experience;
   isLast: boolean;
@@ -102,13 +102,19 @@ function ExperienceItem({ exp, isLast }: ExperienceItemProps) {
   return (
     <div className={!isLast ? "mb-4" : ""}>
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold">{exp.position}</h3>
-        <span className="text-sm text-gray-600">
-          {exp.startDate} - {exp.endDate}
-        </span>
+        <h3 className="font-semibold">{exp.position || "Position"}</h3>
+        {(exp.startDate || exp.endDate) && (
+          <span className="text-sm text-gray-600">
+            {exp.startDate} - {exp.endDate}
+          </span>
+        )}
       </div>
-      <p className="text-[#5E503F] font-medium">{exp.company}</p>
-      <p className="text-sm mt-1 text-gray-700">{exp.description}</p>
+      {exp.company && (
+        <p className="text-[#5E503F] font-medium">{exp.company}</p>
+      )}
+      {exp.description && (
+        <p className="text-sm mt-1 text-gray-700">{exp.description}</p>
+      )}
     </div>
   );
 }
@@ -123,12 +129,16 @@ function EducationItem({ edu, isLast }: EducationItemProps) {
     <div className={!isLast ? "mb-4" : ""}>
       <div className="flex justify-between items-center">
         <h3 className="font-semibold">
-          {edu.degree}
+          {edu.degree || "Degree"}
           {edu.field ? ` in ${edu.field}` : ""}
         </h3>
-        <span className="text-sm text-gray-600">{edu.graduationDate}</span>
+        {edu.graduationDate && (
+          <span className="text-sm text-gray-600">{edu.graduationDate}</span>
+        )}
       </div>
-      <p className="text-[#5E503F] font-medium">{edu.institution}</p>
+      {edu.institution && (
+        <p className="text-[#5E503F] font-medium">{edu.institution}</p>
+      )}
       {edu.gpa && <p className="text-sm text-gray-700">GPA: {edu.gpa}</p>}
     </div>
   );
@@ -143,7 +153,7 @@ function ProjectItem({ project, isLast }: ProjectItemProps) {
   return (
     <div className={!isLast ? "mb-4" : ""}>
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold">{project.title}</h3>
+        <h3 className="font-semibold">{project.title || "Project Title"}</h3>
         {project.link && (
           <a
             href={project.link}
@@ -155,7 +165,9 @@ function ProjectItem({ project, isLast }: ProjectItemProps) {
           </a>
         )}
       </div>
-      <p className="text-sm mt-1 text-gray-700">{project.description}</p>
+      {project.description && (
+        <p className="text-sm mt-1 text-gray-700">{project.description}</p>
+      )}
     </div>
   );
 }
