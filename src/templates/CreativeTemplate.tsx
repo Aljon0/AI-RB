@@ -190,7 +190,7 @@ export default function CreativeTemplate({ resumeData }: { resumeData: ResumeDat
                       skill && (
                         <span
                           key={index}
-                          className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm mr-2 mb-2"
+                          className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm mr-2 mb-2 w-full text-center"
                         >
                           {skill}
                         </span>
