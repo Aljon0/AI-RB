@@ -4,7 +4,6 @@ import MinimalTemplate from "../templates/MinimalTemplate";
 import ProfessionalTemplate from "../templates/ProfessionalTemplate";
 import CreativeTemplate from "../templates/CreativeTemplate";
 import ExecutiveTemplate from "../templates/ExcecutiveTemplate";
-import TechTemplate from "../templates/TechTemplate";
 import { ResumeTemplateProps } from "@/utils/types";
 
 export default function ResumeTemplate({ template, resumeData }: ResumeTemplateProps) {
@@ -21,8 +20,6 @@ export default function ResumeTemplate({ template, resumeData }: ResumeTemplateP
       return <CreativeTemplate resumeData={resumeData} />;
     case "executive":
       return <ExecutiveTemplate resumeData={resumeData} />;
-    case "tech":
-      return <TechTemplate resumeData={resumeData} />;
     default:
       return <ModernTemplate resumeData={resumeData} />;
   }

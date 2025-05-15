@@ -116,7 +116,7 @@ export default function CreativeTemplate({ resumeData }: { resumeData: ResumeDat
                       Projects
                     </span>
                   </h2>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-4">
                     {resumeData.projects.map((project, index) => (
                       <div
                         key={index}

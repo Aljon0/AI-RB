@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Resumes } from "../utils/types";
+import { Resume } from "../utils/types";
 
 interface SavedResumesProps {
-  savedResumes: Resumes[];
+  savedResumes: Resume[];
   loadResume: (id: string) => void;
   deleteResume: (id: string) => Promise<void>;
 }
@@ -10,9 +10,9 @@ interface SavedResumesProps {
 export function SavedResumes({ savedResumes, loadResume, deleteResume }: SavedResumesProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [resumeToDelete, setResumeToDelete] = useState<Resumes | null>(null);
+  const [resumeToDelete, setResumeToDelete] = useState<Resume | null>(null);
 
-  const handleDeleteClick = (resume: Resumes) => {
+  const handleDeleteClick = (resume: Resume) => {
     setResumeToDelete(resume);
     setShowConfirmation(true);
   };

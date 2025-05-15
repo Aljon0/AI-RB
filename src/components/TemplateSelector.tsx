@@ -36,12 +36,6 @@ export function TemplateSelector({ selectedTemplate, setSelectedTemplate }: Temp
       description:
         "Sophisticated layout with amber accents for senior professionals.",
     },
-    {
-      id: "tech",
-      name: "Tech",
-      description:
-        "Dark sidebar with code-inspired styling for tech professionals.",
-    },
   ];
 
   return (
